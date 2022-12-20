@@ -1,26 +1,33 @@
 <template>
-  <view class="scroll-view-container">
-    <!-- 左侧的滑动区域 -->
-    <scroll-view scroll-y :style="{ height: wh + 'px' }" class="left-scroll-view">
-      <block v-for="(item,idx) in cateList" :key="idx">
-        <view :class="['left-scroll-view-item', idx === active ? 'active' : '' ]" @click="changeActive(idx)">{{item.cat_name}}</view>
-      </block>
-    </scroll-view>
-    <!-- 右侧的滑动区域 -->
-    <scroll-view scroll-y :style="{ height: wh + 'px' }" :scroll-top="scrollTop">
-      <view class="cate-lv2" v-for="(item2,idx2) in cateLevel2" :key="idx2">
-        <view class="cate-lv2-title">
-          {{item2.cat_name}}
-        </view>
-        <!-- 三级分类 -->
-        <view class="cate-lv3-list">
-          <view class="cate-lv3-item" v-for="(item3,idx3) in item2.children" :key="idx3" @click="toGoodsList(item3)">
-            <image :src="item3.cat_icon" mode=""></image>
-            <text>{{item3.cat_name}}</text>
+  <view>
+    <!-- 使用自定义的搜索组件 -->
+    <!-- <my-search bgColor="#F7F7F7" radius="28"></my-search> -->
+    <my-search @click="toSearch"></my-search>
+    
+    <view class="scroll-view-container">
+      <!-- 左侧的滑动区域 -->
+      <scroll-view scroll-y :style="{ height: wh + 'px' }" class="left-scroll-view">
+        <block v-for="(item,idx) in cateList" :key="idx">
+          <view :class="['left-scroll-view-item', idx === active ? 'active' : '' ]" @click="changeActive(idx)">{{item.cat_name}}</view>
+        </block>
+      </scroll-view>
+      <!-- 右侧的滑动区域 -->
+      <scroll-view scroll-y :style="{ height: wh + 'px' }" :scroll-top="scrollTop">
+        <view class="cate-lv2" v-for="(item2,idx2) in cateLevel2" :key="idx2">
+          <view class="cate-lv2-title">
+            {{item2.cat_name}}
+          </view>
+          <!-- 三级分类 -->
+          <view class="cate-lv3-list">
+            <view class="cate-lv3-item" v-for="(item3,idx3) in item2.children" :key="idx3" @click="toGoodsList(item3)">
+              <image :src="item3.cat_icon" mode=""></image>
+              <text>{{item3.cat_name}}</text>
+            </view>
           </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
+    
   </view>
 </template>
 
@@ -54,12 +61,18 @@
         uni.navigateTo({
           url:'/subpkg/goods_list/goods_list?cid=' + item3.cat_id 
         })
+      },
+      // 跳转到 搜索页
+      toSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
       }
     },
     onLoad() {
       // 获取当前设备的可用高度
       const sysInfo = uni.getSystemInfoSync()
-      this.wh = sysInfo.windowHeight
+      this.wh = sysInfo.windowHeight - 50
       this.getCateList()
     }
   }

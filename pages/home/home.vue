@@ -1,5 +1,9 @@
 <template>
   <view>
+    <!-- 搜索组件 -->
+    <view class="search-box">
+      <my-search @click="toSearch"></my-search>
+    </view>
     <!-- 轮播图 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="item in swiperList" :key="item.goods_id">
@@ -77,6 +81,12 @@
       // nav-item 被点击时，事件处理函数
       navClickHandler(item) {
         if(item.name === '分类') uni.switchTab({ url:'/pages/cate/cate' })
+      },
+      // 跳转到 搜索页
+      toSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
       }
     },
     onLoad() {
@@ -120,5 +130,11 @@ swiper {
 .floor-img-box {
   display: flex;
   padding-left: 10rpx;
+}
+// 搜索框吸顶
+.search-box {
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 </style>
