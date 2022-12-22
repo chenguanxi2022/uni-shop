@@ -149,8 +149,8 @@
     padding: 0 5px;
     display: flex;
     flex-wrap: wrap;
-    .uni-tag {
-      margin-top: 5px;
+    uni-tag {
+      margin-top: 10px;
       margin-right: 5px;
     }
   }

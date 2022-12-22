@@ -1,9 +1,9 @@
 <template>
   <view>
     <!-- 搜索组件 -->
-    <view class="search-box">
+    <!-- <view class="search-box">
       <my-search @click="toSearch"></my-search>
-    </view>
+    </view> -->
     <!-- 轮播图 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="item in swiperList" :key="item.goods_id">
@@ -41,7 +41,11 @@
 </template>
 
 <script>
+  // 导入自己封装的 mixin 模块
+  import badgeMix from "../../mixins/tarBar-badge.js"
   export default {
+    // 将 badgeMix 混入到当前的页面中进行使用
+    mixins: [badgeMix],
     data() {
       return {
         // 轮播图数据

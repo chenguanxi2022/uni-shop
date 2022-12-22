@@ -36,6 +36,7 @@
 </template>
 
 <script>
+  import { mapState, mapMutations, mapGetters } from "vuex"
   export default {
     data() {
       return {
@@ -47,7 +48,7 @@
         }, {
           icon: 'cart',
           text: '购物车',
-          info: 2
+          info: 0
         }],
         // 右侧按钮组的配置对象
         buttonGroup: [{
@@ -63,7 +64,25 @@
         ]
       };
     },
+    computed: {
+      ...mapState('m_cart', ['cart']),
+      ...mapGetters('m_cart', ['total'])
+    },
+    watch: {
+      total: {
+        handler(newVal) {
+          this.options.forEach((item) => {
+            if(item.text === '购物车') {
+              item.info = newVal
+            }
+          })
+        },
+        // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+        immediate: true
+      }
+    },
     methods: {
+      ...mapMutations('m_cart',['insertCart']),
       // 获取商品详情数据
       async getGoodsDetail(goods_id) {
         const { data: res } = await uni.$http.get("/api/public/v1/goods/detail",{ goods_id })
@@ -89,9 +108,21 @@
           })
         }
       },
+      // 点击 右侧button按钮
       buttonClick (e) {
-        console.log(e)
-        this.options[1].info++
+        if(e.content.text === '加入购物车') {
+          // 造一个商品信息对象
+          const goods = {
+            goods_id: this.goods_info.goods_id,
+            goods_name: this.goods_info.goods_name,
+            goods_price: this.goods_info.goods_price,
+            goods_small_logo: this.goods_info.goods_small_logo,
+            goods_count: 1,
+            goods_state: true
+          }
+          // 传递给 mutations
+          this.insertCart(goods)
+        }
       }
     },
     onLoad(options) {
