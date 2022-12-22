@@ -69,10 +69,6 @@
 </script>
 
 <style lang="scss">
-<<<<<<< HEAD
-
-</style>
-=======
 .cart-title {
   display: flex;
   align-items: center;
@@ -97,4 +93,3 @@
   }
 }
 </style>
->>>>>>> cart
