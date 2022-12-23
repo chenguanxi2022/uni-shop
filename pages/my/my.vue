@@ -1,6 +1,6 @@
 <template>
   <view>
-    My
+    <my-userInfo></my-userInfo>
   </view>
 </template>
 
@@ -14,6 +14,9 @@
       return {
         
       };
+    },
+    computed: {
+      
     }
   }
 </script>

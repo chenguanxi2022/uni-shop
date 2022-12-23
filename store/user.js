@@ -3,8 +3,11 @@ export default {
   namespaced: true,
   
   state: () => ({
-    // 收获地址
-    address: JSON.parse(uni.getStorageSync('address') || '{}')
+    // 收货地址
+    address: JSON.parse(uni.getStorageSync('address') || '{}'),
+    // 用户登陆成功后的 token
+    token: uni.getStorageSync('token'),
+    userInfo: JSON.parse(uni.getStorageSync('userInfo') || '{}')
   }),
   
   mutations: {
@@ -13,9 +16,27 @@ export default {
       state.address = address
       this.commit('m_user/saveStorage')
     },
-    // 保存在 storage
+    // 更新用户信息
+    updateUserInfo(state,userInfo) {
+      state.userInfo = userInfo
+      this.commit('m_user/saveUserInfoStorage')
+    },
+    // 更新 token 
+    updateToken(state, token) {
+      state.token = token
+      this.commit('m_user/saveTokenStorage')
+    },
+    // 地址信息保存在 storage
     saveStorage(state) {
       uni.setStorageSync('address', JSON.stringify(state.address))
+    },
+    // 用户信息保存在 Storage
+    saveUserInfoStorage(state) {
+      uni.setStorageSync('userInfo', JSON.stringify(state.userInfo))
+    },
+    // token 保存在 Storage
+    saveTokenStorage(state) {
+      uni.setStorageSync('token', state.token)
     }
   },
   
